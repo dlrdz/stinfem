@@ -34,11 +34,25 @@ class User(AbstractUser):
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     parent = models.ForeignKey('profiles.Parent', related_name='students')
+    department = models.ForeignKey('school.Department', related_name='students')
+
+    def __str__(self):
+        user = self.user
+        return (user.first_name +" "+ user.last_name +":  "+ user.email)
 
 
 class Teacher(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    faculty = models.ForeignKey('school.Faculty', related_name='teachers' )
+
+    def __str__(self):
+        user = self.user
+        return (user.first_name +" "+ user.last_name +":  "+ user.email)
 
 
 class Parent(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        user = self.user
+        return (user.first_name +" "+ user.last_name +":  "+ user.email)

@@ -1,0 +1,138 @@
+{% extends 'teacher/teacher_home.html' %}
+
+{% block detail %}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-9 ">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="box box-info">
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="box-body tab-pane fade in active" id="about" role="tabpanel" aria-labelledby="home-tab">
+
+                                <div class="col-sm-6 capital">
+                                    <h4 style="color:#00b1b1;">{{user.first_name}} {{ user.last_name }} </h4></span>
+                                    <span><p>{{faculty}}</p></span>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+
+                                <div class="col-sm-5 col-xs-6 tital" >Major:</div><div class="col-sm-7 col-xs-6 ">{{ student.department }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital" >First Name:</div><div class="col-sm-7 col-xs-6 ">{{ user.first_name }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7"> {{ user.last_name }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital" >Date Of Birth:</div><div class="col-sm-7">{{ user.date_of_birth }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ user.gender }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " >Address:</div><div class="col-sm-7">{{ user.address }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " >E-mail:</div><div class="col-sm-7">{{ user.email }}</div>
+
+
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                            <div class="box-body tab-pane fade" id="courses" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="container col-md-12">
+                                    <div class="break">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Credit</th>
+                                                <th>Midterm</th>
+                                                <th>Final</th>
+                                                <th>Final Grade</th>
+                                                <th>Letter Grade</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for l in list %}
+                                            <tr>
+                                                <td>{{ l.code }}</td>
+                                                <td>{{ l.name }}</td>
+                                                <td>{{ l.credit }}</td>
+                                                <td>{{ l.midterm }}</td>
+                                                <td>{{ l.final }}</td>
+                                                <td>{{ l.final_grade }}</td>
+                                                <td>{{ l.letter_grade }}</td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td>{{ gpa }}</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <script>
+              $(function() {
+    $('#profile-image1').on('click', function() {
+        $('#profile-image-upload').click();
+    });
+});
+
+              </script>
+        </div>
+    </div>
+
+
+
+
+
+    {% endblock %}
