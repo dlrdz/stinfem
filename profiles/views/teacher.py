@@ -4,6 +4,9 @@ from profiles.models import Student, User
 from school.models import Faculty, Course, Grade, ExamResult, Exam
 from django.shortcuts import render, get_object_or_404
 
+from profiles.forms import PostForm
+from django.shortcuts import redirect
+
 
 def student_list(request):
     user = User.objects.filter(is_student=True)
@@ -19,6 +22,16 @@ def student_detail(request, pk):
     dict =	[]
     totalcal = 0.0
     totalcredit = 0.0
+
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            exam_result = form.save(commit=False)
+            exam_result.student = student
+            exam_result.save()
+            return student_list(request)
+    else:
+        form = PostForm()
 
     for c in courses:
         m = c.exams.get(exam_type="midterm")
@@ -87,7 +100,16 @@ def student_detail(request, pk):
                                                            'courses': courses,
                                                            'list': dict,
                                                            'gpa': final_gpa,
+                                                           'form': form,
                                                            })
+
+
+#def post_new(request):
+#    form = PostForm()
+#    return render(request, 'blog/post_edit.html', {'form': form})
+
+
+
 
 
 def grade(midterm, final):

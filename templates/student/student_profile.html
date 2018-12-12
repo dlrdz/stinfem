@@ -24,9 +24,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Enter Exam Result</a>
-                            </li>
                         </ul>
 
                         <div class="tab-content profile-tab" id="myTabContent">
@@ -114,23 +111,6 @@
                                             <td>{{ gpa }}</td>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-body tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form_main">
-                                                <div class="form">
-                                                    <form method="post" id="resultForm" name="resultForm">{% csrf_token %}
-                                                        {{ form.as_p }}
-                                                        <input type="submit" value="submit" name="submit" class="txt2">
-
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div
                                     </div>
                                 </div>
                             </div>
