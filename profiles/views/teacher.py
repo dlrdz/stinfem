@@ -1,15 +1,25 @@
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 
 from profiles.models import Student, User
 from school.models import Faculty, Course, Grade, ExamResult, Exam
-from django.shortcuts import render, get_object_or_404
 
 from profiles.forms import PostForm
-from django.shortcuts import redirect
 
 def teacher_account(request):
     return render(request, 'teacher/teacher_account.html')
 
+@csrf_exempt
+def login(request):
+    __import__('ipdb').set_trace()
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    print(email, password)
+
+
+@login_required
 def student_list(request):
     user = User.objects.filter(is_student=True)
     students = user.order_by('last_name')

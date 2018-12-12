@@ -127,3 +127,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+TEACHER_REDIRECT_URL = 'teacher_main_page'
+STUDENT_REDIRECT_URL = 'student_main_page'
+PARENT_REDIRECT_URL = STUDENT_REDIRECT_URL
