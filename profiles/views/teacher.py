@@ -7,6 +7,8 @@ from django.shortcuts import render, get_object_or_404
 from profiles.forms import PostForm
 from django.shortcuts import redirect
 
+def teacher_account(request):
+    return render(request, 'teacher/teacher_account.html')
 
 def student_list(request):
     user = User.objects.filter(is_student=True)
@@ -27,8 +29,14 @@ def student_detail(request, pk):
         form = PostForm(request.POST)
         if form.is_valid():
             exam_result = form.save(commit=False)
+          #  if student.exams.get(exam=exam_result.exam.pk, student=student.pk):
+          #      control = ExamResult.objects.get(exam=exam_result.exam.pk, student=student.pk)
+          #      print(control.pk)
+          #  print(exam_result.exam.pk)
+           # print(student.pk)
             exam_result.student = student
             exam_result.save()
+
             return student_list(request)
     else:
         form = PostForm()
@@ -102,14 +110,6 @@ def student_detail(request, pk):
                                                            'gpa': final_gpa,
                                                            'form': form,
                                                            })
-
-
-#def post_new(request):
-#    form = PostForm()
-#    return render(request, 'blog/post_edit.html', {'form': form})
-
-
-
 
 
 def grade(midterm, final):
