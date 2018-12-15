@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import FormView
 from django.shortcuts import reverse
 from django.conf import settings
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 
 
@@ -15,8 +15,10 @@ class LoginView(FormView):
     def get_success_url(self, request, user):
         if user.is_teacher:
             redirect_to = settings.TEACHER_REDIRECT_URL
-        if user.is_student or user.is_parent:
+        if user.is_student:
             redirect_to = settings.STUDENT_REDIRECT_URL
+        if user.is_parent:
+            redirect_to = settings.PARENT_REDIRECT_URL
         return reverse(redirect_to)
 
     def post(self, request, *args, **kwargs):
@@ -24,8 +26,12 @@ class LoginView(FormView):
         form = self.get_form(form_class)
         if form.is_valid():
             data = form.data
+            print(data)
             username, password = data.get('username'), data.get('password')
+            print(username, password)
             user = authenticate(username=username, password=password)
+            print(user)
+            login(request, user)
             return HttpResponseRedirect(self.get_success_url(request, user))
         else:
             return self.form_invalid(form)

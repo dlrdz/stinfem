@@ -1,0 +1,45 @@
+{% extends 'profile_home.html' %}
+
+{% block account %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8">
+            <div class="col-sm-6 capital">
+                <h4 style="color:#00b1b1;">{{ teacher.first_name }} {{ teacher.last_name }}</h4></span>
+                <span><p> Faculty of {{ teacher_faculty }}</p></span>
+            </div>
+            <div class="clearfix"></div>
+            <hr style="margin:5px 0 5px 0;">
+
+            <div class="col-sm-5 col-xs-6 tital" >First Name:</div><div class="col-sm-7 col-xs-6 ">{{ teacher.first_name }}</div>
+
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7"> {{ teacher.last_name }}</div>
+
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital" >Date Of Birth:</div><div class="col-sm-7">{{ teacher.date_of_birth }}</div>
+
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ teacher.gender }}</div>
+
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital " >Address:</div><div class="col-sm-7">{{ teacher.address }}</div>
+
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+
+            <div class="col-sm-5 col-xs-6 tital " >E-mail:</div><div class="col-sm-7">{{ teacher.email }}</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

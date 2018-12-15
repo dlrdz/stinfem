@@ -1,4 +1,4 @@
-{% extends 'teacher/teacher_home.html' %}
+{% extends 'profile_home.html' %}
 
 {% block detail %}
 
@@ -20,52 +20,59 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
                             </li>
+                            {% if common_courses %}
                             <li class="nav-item">
                                 <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Enter Exam Result</a>
                             </li>
+                            {% endif %}
                         </ul>
 
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="box-body tab-pane fade in active" id="about" role="tabpanel" aria-labelledby="home-tab">
 
                                 <div class="col-sm-6 capital">
-                                    <h4 style="color:#00b1b1;">{{user.first_name}} {{ user.last_name }} </h4></span>
+                                    <h4 style="color:#00b1b1;">{{student.first_name}} {{ student.last_name }} </h4></span>
                                     <span><p>{{faculty}}</p></span>
                                 </div>
                                 <div class="clearfix"></div>
                                 <hr style="margin:5px 0 5px 0;">
 
-                                <div class="col-sm-5 col-xs-6 tital" >Major:</div><div class="col-sm-7 col-xs-6 ">{{ student.department }}</div>
+                                <div class="col-sm-5 col-xs-6 tital" >Major:</div><div class="col-sm-7 col-xs-6 ">{{ department }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital" >First Name:</div><div class="col-sm-7 col-xs-6 ">{{ user.first_name }}</div>
+                                <div class="col-sm-5 col-xs-6 tital" >First Name:</div><div class="col-sm-7 col-xs-6 ">{{ student.first_name }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7"> {{ user.last_name }}</div>
+                                <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7"> {{ student.last_name }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital" >Date Of Birth:</div><div class="col-sm-7">{{ user.date_of_birth }}</div>
+                                <div class="col-sm-5 col-xs-6 tital" >Date Of Birth:</div><div class="col-sm-7">{{ student.date_of_birth }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ user.gender }}</div>
+                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ student.gender }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital " >Address:</div><div class="col-sm-7">{{ user.address }}</div>
+                                <div class="col-sm-5 col-xs-6 tital " >Address:</div><div class="col-sm-7">{{ student.address }}</div>
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital " >E-mail:</div><div class="col-sm-7">{{ user.email }}</div>
+                                <div class="col-sm-5 col-xs-6 tital " >E-mail:</div><div class="col-sm-7">{{ student.email }}</div>
+
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+
+                                <div class="col-sm-5 col-xs-6 tital " >Parent:</div><div class="col-sm-7">{{ parent.user.first_name }} {{ parent.user.last_name }}</div>
 
 
                                 <!-- /.box-body -->
@@ -88,7 +95,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% for l in list %}
+                                            {% for l in course_detail_list %}
                                             <tr>
                                                 <td>{{ l.code }}</td>
                                                 <td>{{ l.name }}</td>

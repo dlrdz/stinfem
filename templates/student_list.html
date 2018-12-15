@@ -1,4 +1,4 @@
-{% extends 'teacher/teacher_home.html' %}
+{% extends 'profile_home.html' %}
 {% block list %}
 
 
@@ -7,7 +7,6 @@
 
 
         <div class="col-md-8">
-            <h4>Bootstrap Snipp for Datatable</h4>
             <div class="table-responsive">
 
                 <table id="mytable" class="table table-bordred table-striped">
@@ -32,11 +31,21 @@
 
                         <td>
                             <p data-placement="top" data-toggle="tooltip" title="Detail">
+                                {% if user.is_teacher %}
                                 <a href="{% url 'detail' pk=student.pk %}">
                                     <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </button>
                                 </a>
+                                {% endif %}
+
+                                {% if user.is_parent %}
+                                <a href="{% url 'detail_for_parent' pk=student.pk %}">
+                                    <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                </a>
+                                {% endif %}
                             </p>
                         </td>
 

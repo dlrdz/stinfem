@@ -19,11 +19,14 @@
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
-                        TEACHER NAME
+                        {{ user.first_name }} {{ user.last_name }}
                     </div>
+
+                    {% if user.is_teacher %}
                     <div class="profile-usertitle-job">
-                        DEPARTMENT
+                        Faculty of {{ teacher_faculty }}
                     </div>
+                    {% endif %}
                 </div>
 
 
@@ -32,14 +35,27 @@
                 <div class="profile-usermenu">
                     <ul class="nav" >
                         <li>
+                            {% if user.is_teacher %}
                             <a href="{% url 'teacher_main_page' %}">
                                 <i class="glyphicon glyphicon-user"  ></i>
                                 My Account </a>
+                            {% endif %}
                         </li>
                         <li >
+                            {% if user.is_teacher %}
                             <a href="{% url 'student_list' %}" >
                                 <i class="glyphicon glyphicon-th-list"  ></i>
                                 Students List </a>
+                            {% endif %}
+                            {% if user.is_parent %}
+                            <a href="{% url 'parent_main_page' %}" >
+                                <i class="glyphicon glyphicon-th-list"  ></i>
+                                Students List </a>
+                            {% endif %}
+
+                            <a href="{% url 'logout' %}">
+                                <i class="glyphicon glyphicon-user"  ></i>
+                                Logout </a>
                         </li>
 
                     </ul>
@@ -52,7 +68,7 @@
                 {% block list %}{% endblock %}
                 {% block detail %}{% endblock %}
                 {% block account %}{% endblock %}
-                </div>
+            </div>
 
 
         </div>
