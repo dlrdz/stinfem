@@ -19,6 +19,7 @@ def student_list(request):
     return render(request, 'student_list.html', {'students': dict})
 
 
+
 @login_required()
 def student_detail(request, pk):
     my_user = request.user

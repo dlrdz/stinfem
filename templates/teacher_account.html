@@ -27,7 +27,12 @@
             <div class="clearfix"></div>
             <div class="bot-border"></div>
 
-            <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ teacher.gender }}</div>
+            {% if user.gender == 'F' %}
+            <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">Female</div>
+            {% endif %}
+            {% if user.gender == 'M' %}
+            <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">Male</div>
+            {% endif %}
 
             <div class="clearfix"></div>
             <div class="bot-border"></div>
@@ -38,6 +43,14 @@
             <div class="bot-border"></div>
 
             <div class="col-sm-5 col-xs-6 tital " >E-mail:</div><div class="col-sm-7">{{ teacher.email }}</div>
+            <div class="clearfix"></div>
+            <div class="bot-border"></div>
+            <div class="col-sm-5 col-xs-6 tital " >Course:</div>
+            <select>
+                {% for c in teacher_courses %}
+                <option><div class="col-sm-7">{{ c.code }}: {{ c.name }} </div></option>
+                {% endfor %}
+            </select>
         </div>
     </div>
 </div>

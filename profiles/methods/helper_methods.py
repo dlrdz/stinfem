@@ -1,6 +1,9 @@
 from profiles.models import Teacher
+from school.models import ExamResult, Exam
 
-def letter(FinalGrade):
+
+
+def find_letter_grade(FinalGrade):
     if FinalGrade >= 94 and FinalGrade <= 100:
         return("A")
 
@@ -38,88 +41,145 @@ def letter(FinalGrade):
         return("F")
 
 
-def grade(midterm, final):
+def calculate_final_grade(midterm, final):
     first = midterm * .40
     second = final * .60
     finalGrade = first + second
-    return finalGrade
+    return round(finalGrade, 2)
+
+
+def calculate_gpa(courses):
+    total_score = 0.0
+    total_credit = 0.0
+    score = 0.0
+
+    for c in courses:
+        if(c["letter_grade"] == "A"):
+            score = float(c["credit"]) * 4.0
+        elif(c["letter_grade"] == "A-" ):
+            score = float(c["credit"]) * 3.67
+        elif(c["letter_grade"] == "B+" ):
+            score = float(c["credit"]) * 3.33
+        elif(c["letter_grade"] == "B" ):
+            score = float(c["credit"]) * 3.0
+        elif(c["letter_grade"] == "B-"):
+            score = float(c["credit"]) * 2.67
+        elif(c["letter_grade"] == "C+" ):
+            score = float(c["credit"]) * 2.33
+        elif(c["letter_grade"] == "C" ):
+            score = float(c["credit"]) * 2.0
+        elif(c["letter_grade"] == "C-" ):
+            score = float(c["credit"]) * 1.67
+        elif(c["letter_grade"] == "D" ):
+            score = float(c["credit"]) * 1.00
+        elif(c["letter_grade"] == "F" ):
+            score = float(c["credit"]) * 0.0
+        elif(c["letter_grade"] == "IP" ):
+            return "-"
+
+        total_credit = total_credit + float(c["credit"])
+        total_score = total_score + score
+
+    if(total_credit != 0 and total_score != 0):
+        final_gpa = round(total_score/total_credit, 2)
+    else:
+        final_gpa = "-"
+
+    return final_gpa
 
 
 def get_course_details(courses, student):
     dict =	[]
     totalcal = 0.0
     totalcredit = 0.0
+    caltimes=0
+
     for c in courses:
+
+        if not c.exams.all():
+            Exam.objects.create(exam_type="f", course=c)
+            Exam.objects.create(exam_type="midterm", course=c)
+            m = c.exams.get(exam_type="midterm")
+            f = c.exams.get(exam_type="f")
+            ExamResult.objects.create(exam=m, student=student, score=999)
+            mid_score= 999;
+            mid__pk = m.results.filter(exam=m, student=student)[0].pk
+            ExamResult.objects.create(exam=f, student=student, score=999)
+            fin_score=999;
+            fin__pk = m.results.filter(exam=f, student=student)[0].pk
+
         m = c.exams.get(exam_type="midterm")
         f = c.exams.get(exam_type="f")
         mr = m.results.filter(exam=m.pk, student=student.pk)
         fr = f.results.filter(exam=f.pk, student=student.pk)
-        credit=c.credit
 
         if not mr:
-            mid_score=0;
+            ExamResult.objects.create(exam=m, student=student, score=999)
+            mid_score= 999;
+            mid__pk = m.results.filter(exam=m, student=student)[0].pk
         else:
             mr = mr[0]
-            mid_score=mr.score
+            mid_score = mr.score
+            mid__pk = mr.pk
         if not fr:
-            fin_score=0;
+            ExamResult.objects.create(exam=f, student=student, score=999)
+            fin_score=999;
+            fin__pk = m.results.filter(exam=f, student=student)[0].pk
+
         else:
             fr = fr[0]
-            fin_score=fr.score
+            fin__pk = fr.pk
+            fin_score= fr.score
 
-        final_grade = grade(mid_score, fin_score)
-        letter_grade = letter(final_grade)
+        if mid_score < 0:
+            mid_score = 0
+            if 0 <= fin_score <= 100:
+                final_grade = calculate_final_grade(mid_score, fin_score)
+                letter_grade = find_letter_grade(final_grade)
 
-        if(letter_grade == "A"):
-            caltimes = float(credit) * 4.0
-        elif(letter_grade== "A-" ):
-            caltimes = float(credit) * 3.67
-        elif(letter_grade == "B+" ):
-            caltimes = float(credit) * 3.33
-        elif(letter_grade== "B" ):
-            caltimes = float(credit) * 3.0
-        elif(letter_grade== "B-"):
-            caltimes = float(credit) * 2.67
-        elif(letter_grade== "C+" ):
-            caltimes = float(credit) * 2.33
-        elif(letter_grade == "C" ):
-            caltimes = float(credit) * 2.0
-        elif(letter_grade == "C-" ):
-            caltimes = float(credit) * 1.67
-        elif(letter_grade == "D" ):
-            caltimes = float(credit) * 1.00
-        elif(letter_grade == "F" ):
-            caltimes = float(credit) * 0.0
+        if mid_score > 100:
+            mid_score= "IP"
+            final_grade = "IP"
+            letter_grade = "IP"
+        if fin_score > 100:
+            fin_score= "IP"
+            final_grade = "IP"
+            letter_grade = "IP"
+        elif fin_score < 0:
+            fin_score= "X"
+            final_grade="X"
+            letter_grade="F"
+        else:
+            final_grade = calculate_final_grade(mid_score, fin_score)
+            letter_grade = find_letter_grade(final_grade)
 
-        totalcredit = totalcredit + float(credit)
-        totalcal = totalcal + caltimes
 
-        x = {'name': c.name,
+        x = {'course': c,
+            'name': c.name,
              'code': c.code,
              'credit': c.credit,
              'midterm': mid_score,
+             'mid_pk': mid__pk,
              'final': fin_score,
+             'fin_pk': fin__pk,
              'final_grade': final_grade,
              'letter_grade': letter_grade,
+             'course_pk': c.pk,
              }
         dict.append(x)
 
-    if(totalcredit != 0):
-        final_gpa = round(totalcal/totalcredit , 2)
-    else:
-        final_gpa = "-"
-
+    final_gpa = calculate_gpa(dict)
     return dict, final_gpa
 
 
-def find_common_courses(teacher,courses):
+def find_common_courses(teacher, courses):
     common_courses=[]
     teacher_courses=teacher.courses.all()
 
     if len(teacher_courses) >= len(courses):
         for s in courses:
             for t in teacher_courses:
-                if s==t:
+                if s == t:
                     common_courses.append(t)
 
 
@@ -136,4 +196,5 @@ def get_teacher_info(request):
     my_user = request.user
     teacher = Teacher.objects.get(user=my_user.pk)
     return {'teacher': my_user,
-            'teacher_faculty': teacher.faculty}
+            'teacher_faculty': teacher.faculty,
+            'teacher_courses': teacher.courses.all()}

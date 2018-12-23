@@ -20,11 +20,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">Courses</a>
                             </li>
-                            {% if common_courses %}
-                            <li class="nav-item">
-                                <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Enter Exam Result</a>
-                            </li>
-                            {% endif %}
+
                         </ul>
 
                         <div class="tab-content profile-tab" id="myTabContent">
@@ -57,7 +53,12 @@
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
 
-                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">{{ student.gender }}</div>
+                                {% if student.gender == 'F' %}
+                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">Female</div>
+                                {% endif %}
+                                {% if student.gender == 'M' %}
+                                <div class="col-sm-5 col-xs-6 tital" >Gender:</div><div class="col-sm-7">Male</div>
+                                {% endif %}
 
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
@@ -100,11 +101,20 @@
                                                 <td>{{ l.code }}</td>
                                                 <td>{{ l.name }}</td>
                                                 <td>{{ l.credit }}</td>
+                                                {% if l.course in common_courses %}
+                                                <td><a href="{% url 'result_edit' pk=l.mid_pk %}">{{ l.midterm }}</a></td>
+                                                <td><a href="{% url 'result_edit' pk=l.fin_pk %}">{{ l.final }}</a></td>
+                                                {% else %}
                                                 <td>{{ l.midterm }}</td>
                                                 <td>{{ l.final }}</td>
+                                                {% endif %}
+
+
                                                 <td>{{ l.final_grade }}</td>
                                                 <td>{{ l.letter_grade }}</td>
                                             </tr>
+
+
                                             {% endfor %}
 
                                             <td></td>
@@ -120,23 +130,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-body tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form_main">
-                                                <div class="form">
-                                                    <form method="post" id="resultForm" name="resultForm">{% csrf_token %}
-                                                        {{ form.as_p }}
-                                                        <input type="submit" value="submit" name="submit" class="txt2">
-
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
 
@@ -149,6 +142,8 @@
         $('#profile-image-upload').click();
     });
 });
+
+
 
               </script>
         </div>

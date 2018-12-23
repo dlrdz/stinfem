@@ -23,6 +23,6 @@ from profiles.views.profiles_views import LoginView
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^', include('profiles.urls')),
-    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^', LoginView.as_view(), name='login', ),
     url(r'^logout/$', auth_views.logout, name='logout'),
 ]

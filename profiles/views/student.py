@@ -8,7 +8,6 @@ from profiles.methods.helper_methods import *
 @login_required()
 def student_detail(request):
     my_user = request.user
-    print(my_user)
     student = stu.objects.get(user=my_user.pk)
     courses = student.courses.all()
 

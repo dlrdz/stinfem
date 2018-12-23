@@ -5,7 +5,6 @@ class Course(models.Model):
     code = models.CharField(max_length=30)
     name = models.CharField(max_length=100)
     credit = models.PositiveIntegerField()
-    #teacher = models.ForeignKey('profiles.Teacher', related_name='subjects')
     teachers = models.ManyToManyField('profiles.Teacher', related_name='courses')
     students = models.ManyToManyField('profiles.Student',
                                       through='Grade',
@@ -34,7 +33,10 @@ class Grade(models.Model):
     # Connection table betweeb student and subject
     student = models.ForeignKey('profiles.Student')
     course = models.ForeignKey(Course, related_name='grades')
-    grade = models.CharField(max_length=255)
+    grade = models.CharField(max_length=10)
+
+    def __str__(self):
+        return (self.course.code + ": " + self.student.user.first_name+ " " + self.student.user.last_name)
 
 
 
@@ -47,7 +49,7 @@ class Exam(models.Model):
     student = models.ManyToManyField('profiles.Student',
                                      through='ExamResult',
                                      related_name='exams')
-    exam_type = models.CharField(choices=TYPE, max_length=255)
+    exam_type = models.CharField(choices=TYPE, max_length=50)
 
     def __str__(self):
         return (self.course.name + ": " + self.exam_type)

@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 class LoginView(FormView):
     form_class = AuthenticationForm
     redirect_field_name = REDIRECT_FIELD_NAME
-    template_name = 'registration/login.html'
+    template_name = 'registration/login2.html'
 
     def get_success_url(self, request, user):
         if user.is_teacher:

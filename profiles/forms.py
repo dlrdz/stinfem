@@ -4,11 +4,11 @@ from profiles.models import Student, User
 from school.models import Faculty, Course, Grade, ExamResult, Exam
 
 
-class PostForm(forms.ModelForm):
+class PostExamResult(forms.ModelForm):
 
     class Meta:
         model = ExamResult
-        fields = ('exam', 'score',)
+        fields = ( 'score',)
 
 
 

@@ -31,6 +31,7 @@
 
                         <td>
                             <p data-placement="top" data-toggle="tooltip" title="Detail">
+
                                 {% if user.is_teacher %}
                                 <a href="{% url 'detail' pk=student.pk %}">
                                     <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
