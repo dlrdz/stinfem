@@ -4,48 +4,56 @@ from school.models import ExamResult, Exam
 
 
 def find_letter_grade(FinalGrade):
-    if FinalGrade >= 94 and FinalGrade <= 100:
-        return("A")
+    try:
+        FinalGrade = int(FinalGrade)
+        if FinalGrade >= 94 and FinalGrade <= 100:
+            return("A")
 
-    elif FinalGrade >= 90 and FinalGrade < 94:
-        return("A-")
+        elif FinalGrade >= 90 and FinalGrade < 94:
+            return("A-")
 
-    elif FinalGrade >= 87 and FinalGrade < 90:
-        return("B+")
+        elif FinalGrade >= 87 and FinalGrade < 90:
+            return("B+")
 
-    elif FinalGrade >= 84 and FinalGrade < 87:
-        return("B")
+        elif FinalGrade >= 84 and FinalGrade < 87:
+            return("B")
 
-    elif FinalGrade >= 80 and FinalGrade < 84:
-        return("B-")
+        elif FinalGrade >= 80 and FinalGrade < 84:
+            return("B-")
 
-    elif FinalGrade >= 77 and FinalGrade < 80:
-        return("C+")
+        elif FinalGrade >= 77 and FinalGrade < 80:
+            return("C+")
 
-    elif FinalGrade >= 74 and FinalGrade < 77:
-        return("C")
+        elif FinalGrade >= 74 and FinalGrade < 77:
+            return("C")
 
-    elif FinalGrade >= 70 and FinalGrade < 74:
-        return("C-")
+        elif FinalGrade >= 70 and FinalGrade < 74:
+            return("C-")
 
-    elif FinalGrade >= 67 and FinalGrade < 70:
-        return("D+")
+        elif FinalGrade >= 67 and FinalGrade < 70:
+            return("D+")
 
-    elif FinalGrade >= 64 and FinalGrade < 67:
-        return("D")
+        elif FinalGrade >= 64 and FinalGrade < 67:
+            return("D")
 
-    elif FinalGrade >= 61 and FinalGrade < 64:
-        return("D-")
+        elif FinalGrade >= 61 and FinalGrade < 64:
+            return("D-")
 
-    else:
-        return("F")
+        else:
+            return("F")
+    except ValueError:
+        return ("IP")
 
 
 def calculate_final_grade(midterm, final):
-    first = midterm * .40
-    second = final * .60
-    finalGrade = first + second
-    return round(finalGrade, 2)
+    try:
+        midterm = int(midterm)
+        first = midterm * .40
+        second = final * .60
+        finalGrade = round(first + second, 2)
+    except ValueError:
+        finalGrade = "IP"
+    return finalGrade
 
 
 def calculate_gpa(courses):

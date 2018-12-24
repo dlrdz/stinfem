@@ -74,6 +74,7 @@ def result_edit(request, pk):
     my_user = request.user
     teacher = Teacher.objects.get(user=my_user.pk)
     examResult = ExamResult.objects.get(pk=pk)
+    info=get_teacher_info(request)
     check = False
     for c in teacher.courses.all():
         if c.pk == examResult.exam.course.pk:
@@ -89,5 +90,7 @@ def result_edit(request, pk):
             return student_list(request)
     else:
         form = PostExamResult(instance=post)
-    return render(request, 'result_edit.html', {'form': form})
+
+    info.update({'form': form})
+    return render(request, 'result_edit.html', info)
 
